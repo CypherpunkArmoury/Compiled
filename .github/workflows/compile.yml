@@ -22,6 +22,8 @@ jobs:
       run: |
         curl -d chat_id=${chat_id} -d text="Compile Routine Created..." https://api.telegram.org/bot${bot_token}/sendMessage
 
+    - name: Clone the git
+      run: git clone https://github.com/Chainfire/libsuperuser
 
     - name: Update package list
       run: sudo apt update
@@ -29,9 +31,8 @@ jobs:
     - name: Install gradle
       run: sudo apt install gradle
 
-
     - name: Build
-      run: gradle assemble
+      run: (cd libsuperuser/libsuperuser_example/; gradle assemble)
 
     - name: Log to tg
       env:
@@ -43,7 +44,7 @@ jobs:
     - uses: actions/upload-artifact@v2
       with:
         name: Upload Artifact
-        path: ./
+        path: ./libsuperuser/libsuperuser_example/
 
 
     - name: Rename apk to APP_NAME
