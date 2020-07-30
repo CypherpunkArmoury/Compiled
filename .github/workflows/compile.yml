@@ -47,10 +47,6 @@ jobs:
         path: ./libsuperuser/libsuperuser_example/
 
 
-    - name: Rename apk to APP_NAME
-      run: mv build/outputs/apk/*/*.apk ${APP_NAME}
-
-
     - name: Notification Build Complete
       env:
         chat_id: ${{ secrets.CHAT_ID }}
