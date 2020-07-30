@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">libsuperuser_example</string>
+    <string name="modes">Mode</string>
+    <string name="mode_legacy">Legacy</string>
+    <string name="mode_interactive">Interactive</string>
+    <string name="mode_pooled">Pooled</string>
+    <string name="mode_current">(current)</string>
+    <string name="refresh">Refresh</string>
+</resources>

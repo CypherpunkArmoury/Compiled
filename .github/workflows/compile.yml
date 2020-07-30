@@ -29,10 +29,9 @@ jobs:
     - name: Install gradle
       run: sudo apt install gradle
 
-    - name: Setup build type
-      run: echo "::set-env name=BUILD_TYPE::debug"
-      env:
-        BUILD_TYPE: release
+
+    - name: Build
+      run: gradle assemble
 
     - name: Log to tg
       env:
