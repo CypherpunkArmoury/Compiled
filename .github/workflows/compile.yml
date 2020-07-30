@@ -1,0 +1,59 @@
+name: Build the app
+
+
+on:
+  watch:
+    types: [started]
+
+
+
+jobs:
+  build:
+    name: Build the app
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Log to tg
+      env:
+        chat_id: ${{ secrets.CHAT_ID }}
+        bot_token: ${{ secrets.TG_TOKEN }}
+      run: |
+        curl -d chat_id=${chat_id} -d text="Compile Routine Created..." https://api.telegram.org/bot${bot_token}/sendMessage
+
+
+    - name: Update package list
+      run: sudo apt update
+
+    - name: Install gradle
+      run: sudo apt install gradle
+
+    - name: Setup build type
+      run: echo "::set-env name=BUILD_TYPE::debug"
+      env:
+        BUILD_TYPE: release
+
+    - name: Log to tg
+      env:
+        chat_id: ${{ secrets.CHAT_ID }}
+        bot_token: ${{ secrets.TG_TOKEN }}
+      run: |
+        curl -d chat_id=${chat_id} -d text="Build has Started..." https://api.telegram.org/bot${bot_token}/sendMessage
+
+    - uses: actions/upload-artifact@v2
+      with:
+        name: Upload Artifact
+        path: ./
+
+
+    - name: Rename apk to APP_NAME
+      run: mv build/outputs/apk/*/*.apk ${APP_NAME}
+
+
+    - name: Notification Build Complete
+      env:
+        chat_id: ${{ secrets.CHAT_ID }}
+        bot_token: ${{ secrets.TG_TOKEN }}
+      run: curl -d chat_id=${chat_id} -d text="Compile Complete. Check \n https://github.com/CypherpunkArmoury/Compiled" https://api.telegram.org/bot${bot_token}/sendMessage
+
